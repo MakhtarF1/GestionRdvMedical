@@ -14,8 +14,9 @@ namespace MetierRvMedical.Model
     {
         public BdRvMedicalContext() :base("bdRvMedicalContext") 
         { }
-
         public DbSet<Personne> Personnees { get; set; }
+
+
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Utilisateur> Utilisateurs { get; set; }
         public DbSet<Medecin>  Medecins { get; set; }
