@@ -5,17 +5,25 @@ using System.Web.Http;
 
 namespace APIRdvMedical1.Controllers
 {
+    /// <summary>
+    /// API pour la gestion des médecins.
+    /// </summary>
     public class MedecinController : ApiController
     {
         private BdRvMedicalContext db = new BdRvMedicalContext();
 
-        // GET: api/Medecin
+        /// <summary>
+        /// Récupère la liste complète des médecins.
+        /// </summary>
         public IEnumerable<Medecin> Get()
         {
+            // Retourne tous les médecins avec leur spécialité
             return db.Medecins.Include("Specialite").ToList();
         }
 
-        // GET: api/Medecin/5
+        /// <summary>
+        /// Récupère un médecin par son ID.
+        /// </summary>
         public IHttpActionResult Get(int id)
         {
             var medecin = db.Medecins.FirstOrDefault(m => m.IdU == id);
@@ -25,7 +33,9 @@ namespace APIRdvMedical1.Controllers
             return Ok(medecin);
         }
 
-        // POST: api/Medecin
+        /// <summary>
+        /// Crée un nouveau médecin.
+        /// </summary>
         public IHttpActionResult Post([FromBody] Medecin medecin)
         {
             if (!ModelState.IsValid)
@@ -37,7 +47,9 @@ namespace APIRdvMedical1.Controllers
             return CreatedAtRoute("DefaultApi", new { id = medecin.IdU }, medecin);
         }
 
-        // PUT: api/Medecin/5
+        /// <summary>
+        /// Met à jour un médecin existant.
+        /// </summary>
         public IHttpActionResult Put(int id, [FromBody] Medecin medecin)
         {
             if (!ModelState.IsValid)
@@ -47,7 +59,7 @@ namespace APIRdvMedical1.Controllers
             if (existing == null)
                 return NotFound();
 
-            // Mise à jour des champs hérités de Personne et Utilisateur
+            // Mise à jour des données de base
             existing.NomPrenom = medecin.NomPrenom;
             existing.Adresse = medecin.Adresse;
             existing.Email = medecin.Email;
@@ -57,7 +69,7 @@ namespace APIRdvMedical1.Controllers
             existing.Statut = medecin.Statut;
             existing.IdRole = medecin.IdRole;
 
-            // Champs propres à Medecin
+            // Mise à jour des données spécifiques au médecin
             existing.NumeroOrdre = medecin.NumeroOrdre;
             existing.IdSpecialite = medecin.IdSpecialite;
 
@@ -66,8 +78,9 @@ namespace APIRdvMedical1.Controllers
             return Ok(existing);
         }
 
-
-        // DELETE: api/Medecin/5
+        /// <summary>
+        /// Supprime un médecin existant.
+        /// </summary>
         public IHttpActionResult Delete(int id)
         {
             var medecin = db.Medecins.FirstOrDefault(m => m.IdU == id);
